@@ -1,0 +1,74 @@
+﻿@page "/"
+@model IndexModel
+<!DOCTYPE HTML>
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="text-center">
+    <!--<h1>Hello, World! </h1>-->
+
+    @if ((bool)ViewData["LightState"] == true) {
+    @:<h1>Lyset Er Tændt</h1>
+    }
+    else {
+    @:<h1>Lyset Er Slukket</h1>
+    }
+
+    <span id="time"></span>
+
+</div>
+
+
+<script>
+    function setTime() {
+        const date = new Date()
+        document.getElementById("time").innerHTML = date.toString().split("GMT")[0]
+    }
+    setTime()
+    setInterval(setTime, 1000)
+</script>
+<div class="row justify-content-between" >
+            <!--Light Switch stuff-->
+    <div id="LightSwitch" class="col" >
+        <p>Light Switch</p>
+        @if ((bool)ViewData["LightState"] == true) {
+        <form method="post">
+            <button class="btn btn-dark myButton">Turn Off</button>
+            <input type="hidden" name="on" value="false" />
+        </form>
+    }
+    else{
+        <form method="post">
+            <button class="btn btn-light">Turn On</button>
+            <input type="hidden" name="on" value="true" />
+        </form>
+    }
+    </div>
+
+
+            <!--Auto,atic Light Switch Stuff-->
+    <div id="AutomaticLightSwitcher" class=" col">
+        <div>
+            <p>Automatic Light Switch</p>
+            @if ((bool)ViewData["AutoLight"] == true) {
+            <form method="post" asp-page-handler="Toggle">
+                <button class="btn btn-dark myButton">Turn Off</button>
+                <input type="hidden" name="enabled" value="false" />
+            </form>
+        }
+        else {
+            <form method="post" asp-page-handler="Toggle">
+                <button class="btn btn-light">Turn On</button>
+                <input type="hidden" name="enabled" value="true" />
+            </form>
+        }
+        </div>
+    </div>
+</div>
+
+
+
+
